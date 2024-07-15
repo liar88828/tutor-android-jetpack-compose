@@ -41,6 +41,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.home.HomeScreen
+import com.example.myapplication.login.LoginScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -49,12 +54,25 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "login") {
+                    composable("login") {
+                        LoginScreen(navController = navController)
+                    }
+                    composable("home") {
+                        HomeScreen(navController = navController)
+                    }
+
                 }
+
+//                Scaffold(modifier = Modifier.fillMaxSize(),
+//                    topBar = {
+//                        Text(text = "Hello")
+//                    }) { innerPadding ->
+//                    Greeting(
+//                        name = "Android", modifier = Modifier.padding(innerPadding)
+//                    )
+//                }
             }
         }
     }
@@ -64,26 +82,21 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldSample() {
-    Scaffold(
-        topBar = {
-            TopAppBar(title = {
-                Text(text = "My Scaffold")
-            })
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = null
-                )
-            }
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            Text(text = "My Scaffold")
+        })
+    }, floatingActionButton = {
+        FloatingActionButton(onClick = {}) {
+            Icon(
+                imageVector = Icons.Default.Add, contentDescription = null
+            )
         }
-    ) {
+    }) {
         Box(
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
+                .fillMaxSize(), contentAlignment = Alignment.Center
         ) {
             Text(text = "Hello Compose Scaffold ")
         }
@@ -104,8 +117,7 @@ fun ScaffoldSamplePrev() {
 @Composable
 private fun SlotBaseLayouts() {
     Button(
-        onClick = {},
-        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)
+        onClick = {}, contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)
     ) {
         Icon(
             imageVector = Icons.Default.Favorite,
@@ -143,8 +155,7 @@ fun UserChat(name: String, msg: String) {
                 .padding(4.dp)
                 .size(60.dp)
                 .border(
-                    2.dp, Color.Blue,
-                    CircleShape
+                    2.dp, Color.Blue, CircleShape
                 )
                 .clip(CircleShape)
 
@@ -184,7 +195,8 @@ fun UserProfile() {
             modifier = Modifier.size(32.dp)
         )
         Icon(
-            imageVector = Icons.Default.Check, contentDescription = null,
+            imageVector = Icons.Default.Check,
+            contentDescription = null,
             Modifier
                 .size(8.dp)
                 .align(Alignment.Bottom)
@@ -210,8 +222,7 @@ fun UserProfilePreview() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
-        modifier = modifier
+        text = "Hello $name!", modifier = modifier
     )
 }
 
